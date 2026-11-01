@@ -491,107 +491,6 @@
       opacity: 1
     }
 
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 30;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: .7rem clamp(1rem, 4vw, 3rem);
-      background: rgba(44, 31, 24, .96);
-      border-bottom: 1px solid transparent;
-      transition: background .4s, border-color .4s
-    }
-
-    header.scrolled {
-      border-color: rgba(183, 154, 91, .3)
-    }
-
-    body.on-rsvp header {
-      display: none
-    }
-
-    .logo,
-    .burger {
-      position: relative;
-      z-index: 2;
-      color: var(--ink)
-    }
-
-    .logo {
-      font: 1.9rem/1 var(--script)
-    }
-
-    .burger {
-      display: none;
-      width: 44px;
-      height: 44px;
-      place-content: center;
-      gap: 6px
-    }
-
-    .burger i {
-      display: block;
-      width: 26px;
-      height: 1.5px;
-      background: var(--ink);
-      transition: transform .4s var(--ease), opacity .3s, background .3s
-    }
-
-    .burger[aria-expanded=true] i:nth-child(1) {
-      transform: translateY(7.5px) rotate(45deg)
-    }
-
-    .burger[aria-expanded=true] i:nth-child(2) {
-      opacity: 0
-    }
-
-    .burger[aria-expanded=true] i:nth-child(3) {
-      transform: translateY(-7.5px) rotate(-45deg)
-    }
-
-    header nav {
-      display: flex;
-      gap: clamp(1rem, 3vw, 2.2rem)
-    }
-
-    header nav button {
-      font-size: .85rem;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      padding: .4rem 0;
-      position: relative;
-      color: var(--ink);
-      opacity: .7;
-      transition: opacity .3s
-    }
-
-    header nav button::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 1px;
-      background: var(--gold);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform .4s var(--ease)
-    }
-
-    header nav button:hover,
-    header nav button[aria-current=page] {
-      opacity: 1
-    }
-
-    header nav button:hover::after,
-    header nav button[aria-current=page]::after {
-      transform: scaleX(1)
-    }
-
     /* ===== PAGES ===== */
     main {
       position: absolute;
@@ -629,7 +528,7 @@
     }
 
     .sec.first {
-      padding-top: 6rem
+      padding-top: clamp(2.5rem, 7vw, 4rem)
     }
 
     .sec.wide {
@@ -658,67 +557,6 @@
     .btn:hover {
       background: var(--gold);
       transform: translateY(-2px)
-    }
-
-    /* HOME (light) */
-    .hero {
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: clamp(1.5rem, 5vw, 4rem);
-      align-items: center;
-      min-height: 100%;
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 6rem 1.5rem 3rem
-    }
-
-    .hero p {
-      line-height: 1.8
-    }
-
-    .hero h1 {
-      font: 400 clamp(3.2rem, 10vw, 7rem)/1.05 var(--script);
-      color: var(--title)
-    }
-
-    .hero h1 em {
-      display: block;
-      font-size: .5em;
-      color: var(--gold);
-      margin: .1em 0
-    }
-
-    .hero .date {
-      margin-top: 1.4rem;
-      font-size: 1.05rem;
-      letter-spacing: .12em
-    }
-
-    .hero .photo {
-      aspect-ratio: 3/4;
-      border-radius: 200px 200px 6px 6px
-    }
-
-    .count {
-      display: flex;
-      gap: 1.4rem;
-      margin-top: 2rem
-    }
-
-    .count div {
-      text-align: center
-    }
-
-    .count b {
-      display: block;
-      font: 400 2.4rem var(--serif)
-    }
-
-    .count small {
-      font-size: .7rem;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      opacity: .7
     }
 
     /* OUR STORY (dark, like the Canva page) */
@@ -795,44 +633,82 @@
       border-radius: 50%
     }
 
-    /* GALLERY (light) */
-    .grid {
-      columns: 3 220px;
-      column-gap: 1rem
+    /* countdown band (Our Story page) */
+    .band {
+      background: rgba(255, 255, 255, .13);
+      padding: 2rem 1rem 2.2rem;
+      text-align: center
     }
 
-    .grid .photo {
-      margin-bottom: 1rem;
-      border-radius: 4px;
-      transition: transform .5s var(--ease)
+    .band h3 {
+      font: 400 clamp(1rem, 3vw, 1.2rem) 'Marcellus', serif;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem
     }
 
-    .grid .photo:hover {
-      transform: scale(1.02)
+    .cd {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: clamp(.5rem, 3vw, 1.4rem)
     }
 
-    .grid .photo:nth-child(1) {
-      height: 320px
+    .cd div {
+      min-width: 3.4rem
     }
 
-    .grid .photo:nth-child(2) {
-      height: 220px
+    .cd b {
+      display: block;
+      font: 400 clamp(2rem, 8vw, 2.8rem)/1.1 var(--serif);
+      color: #d8bf94
     }
 
-    .grid .photo:nth-child(3) {
-      height: 280px
+    .cd small {
+      font: .7rem 'Marcellus', serif;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #d8bf94
     }
 
-    .grid .photo:nth-child(4) {
-      height: 300px
+    .cd .colon {
+      min-width: 0;
+      font-size: clamp(1.6rem, 6vw, 2.2rem);
+      line-height: 1.2;
+      color: var(--ink)
     }
 
-    .grid .photo:nth-child(5) {
-      height: 240px
+    /* RSVP button section at the bottom of the page */
+    .rsvp-bg {
+      background: linear-gradient(rgba(44, 31, 24, .55), rgba(44, 31, 24, .55)), var(--rsvp-bg, radial-gradient(70% 60% at 25% 65%, #6a6842, #2c1f18)) center/cover
     }
 
-    .grid .photo:nth-child(6) {
-      height: 340px
+    .mini {
+      display: flex;
+      justify-content: center;
+      margin: 1.8rem 0 1.4rem
+    }
+
+    .menv {
+      width: min(40vw, 150px);
+      aspect-ratio: 1/1.1;
+      background: linear-gradient(#8a5a35, #5e3a22);
+      clip-path: polygon(50% 0, 100% 22%, 100% 100%, 0 100%, 0 22%);
+      display: grid;
+      place-items: center;
+      font: 1rem 'Marcellus', serif;
+      padding-top: 14%
+    }
+
+    .mcard {
+      width: min(33vw, 125px);
+      aspect-ratio: .62;
+      background: #2b1214;
+      margin: 18px 0 0 -6px;
+      display: grid;
+      place-items: center;
+      color: #a98756;
+      font: 2.2rem var(--script)
     }
 
     /* RSVP — full-screen dark page, like the sample */
@@ -1009,86 +885,6 @@
       font-size: 1rem
     }
 
-    /* ===== RESPONSIVE: hamburger on mobile ===== */
-    @media(max-width:800px) {
-      .burger {
-        display: grid
-      }
-
-      header nav {
-        position: fixed;
-        inset: 0;
-        z-index: 1;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 0;
-        background: rgba(28, 19, 13, .97);
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity .5s var(--ease), visibility .5s
-      }
-
-      header nav.open {
-        opacity: 1;
-        visibility: visible
-      }
-
-      header nav button {
-        font: clamp(2.6rem, 10vw, 3.6rem)/1.25 var(--script);
-        text-transform: none;
-        letter-spacing: 0;
-        color: #f3ead8;
-        opacity: 0;
-        transform: translateY(14px);
-        padding: .1em .6em;
-        transition: opacity .5s, transform .6s var(--ease), color .3s
-      }
-
-      header nav button::after {
-        display: none
-      }
-
-      header nav.open button {
-        opacity: 1;
-        transform: none
-      }
-
-      header nav.open button:nth-child(2) {
-        transition-delay: .08s
-      }
-
-      header nav.open button:nth-child(3) {
-        transition-delay: .16s
-      }
-
-      header nav.open button:nth-child(4) {
-        transition-delay: .24s
-      }
-
-      header nav button:hover {
-        color: #b79a5b
-      }
-
-      .hero {
-        grid-template-columns: 1fr;
-        text-align: center;
-        padding-top: 5.5rem;
-        gap: 1.5rem
-      }
-
-      .hero .photo {
-        order: -1;
-        max-width: 280px;
-        width: 100%;
-        margin: 0 auto
-      }
-
-      .count {
-        justify-content: center
-      }
-    }
-
     @media(prefers-reduced-motion:reduce) {
       * {
         transition-duration: .01s !important;
@@ -1175,40 +971,9 @@
 
   <!-- ===== SITE ===== -->
   <div id="site">
-    <header>
-      <div class="logo">C &amp; G</div>
-      <nav id="menu" aria-label="Main">
-        <button data-go="home" aria-current="page">Home</button>
-        <button data-go="story">Our Story</button>
-        <button data-go="gallery">Gallery</button>
-        <button data-go="rsvp">RSVP</button>
-      </nav>
-      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"
-        aria-controls="menu"><i></i><i></i><i></i></button>
-    </header>
-
     <main>
-      <!-- HOME -->
-      <section class="page active" id="home">
-        <div class="hero">
-          <div>
-            <p>Together with their families</p>
-            <h1>Chinny <em>&amp;</em> Gilby</h1>
-            <p class="date">DECEMBER 16, 2026 &nbsp;|&nbsp; CHATEAU DE BUSAY</p>
-            <div class="count" aria-label="Countdown to the wedding">
-              <div><b id="d">0</b><small>Days</small></div>
-              <div><b id="h">00</b><small>Hours</small></div>
-              <div><b id="m">00</b><small>Min</small></div>
-              <div><b id="s">00</b><small>Sec</small></div>
-            </div>
-            <button class="btn" data-go="rsvp">RSVP now</button>
-          </div>
-          <div class="photo"><!-- <img src="hero.jpg" alt="Chinny and Gilby"> -->Your photo here</div>
-        </div>
-      </section>
-
-      <!-- OUR STORY: story + venue + dress code (date, countdown and RSVP live on Home) -->
-      <section class="page" id="story">
+      <!-- ONE PAGE: story, countdown, venue, dress code, RSVP button (RSVP form is a separate page, no tab) -->
+      <section class="page active" id="story">
         <div class="sec first">
           <h2 class="script">Our Story</h2>
           <div class="frame">
@@ -1217,6 +982,19 @@
           <p>Write how you met here. A few warm sentences about the first hello and the moment you knew.</p>
           <p>Add a second paragraph about the proposal and the years since.</p>
           <p>Finish with what you are looking forward to most on the day.</p>
+        </div>
+
+                <div class="band">
+          <h3>Counting down to forever</h3>
+          <div class="cd" aria-label="Countdown to the wedding">
+            <div><b id="d">0</b><small>Days</small></div>
+            <div class="colon">:</div>
+            <div><b id="h">00</b><small>Hours</small></div>
+            <div class="colon">:</div>
+            <div><b id="m">00</b><small>Minutes</small></div>
+            <div class="colon">:</div>
+            <div><b id="s">00</b><small>Seconds</small></div>
+          </div>
         </div>
 
         <div class="sec">
@@ -1265,29 +1043,26 @@
               able to accommodate those guests formally invited.</p>
           </div>
         </div>
-      </section>
-
-      <!-- GALLERY -->
-      <section class="page" id="gallery">
-        <div class="sec wide first">
-          <h2 class="script">Gallery</h2>
-          <div class="grid">
-            <div class="photo">Photo 1</div>
-            <div class="photo">Photo 2</div>
-            <div class="photo">Photo 3</div>
-            <div class="photo">Photo 4</div>
-            <div class="photo">Photo 5</div>
-            <div class="photo">Photo 6</div>
+              <div class="rsvp-bg">
+          <div class="sec">
+            <h2 class="script">RSVP</h2>
+            <p>As we begin our journey together, we'd love for you to join us in celebrating our big day. Your presence
+              means the world to us, and we can't wait to create unforgettable memories together.</p>
+            <!-- replace .mini with <img src="envelope.png" alt=""> if you have the Canva envelope image -->
+            <div class="mini">
+              <div class="menv">RSVP</div>
+              <div class="mcard">C&amp;G</div>
+            </div>
+            <button class="btn" data-go="rsvp">Click here</button>
           </div>
-          <button class="btn" data-go="rsvp">RSVP</button>
         </div>
-      </section>
-
+      
+</section>
 
       <!-- RSVP -->
       <section class="page" id="rsvp">
         <div class="wrap">
-          <button class="back" data-go="home" type="button">
+          <button class="back" data-go="story" type="button">
             <svg viewBox="0 0 40 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
               <path d="M39 6H2M7 1 2 6l5 5" />
             </svg>
@@ -1352,36 +1127,21 @@
     document.getElementById('stage').addEventListener('click', openEnv);
     document.getElementById('viewBtn').addEventListener('click', () => { intro.classList.add('done'); site.classList.add('show') });
 
-    /* ===== Navigation: page slides, sticky header, mobile hamburger ===== */
-    const burger = document.getElementById('burger'), menu = document.getElementById('menu'), header = document.querySelector('header');
-    const navBtns = [...menu.querySelectorAll('button')];
-    let current = 'home';
-    function setMenu(o) {
-      menu.classList.toggle('open', o);
-      burger.setAttribute('aria-expanded', o); burger.setAttribute('aria-label', o ? 'Close menu' : 'Open menu');
-    }
-    burger.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
-    addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false) });
-    addEventListener('resize', () => { if (innerWidth > 800) setMenu(false) });
+    /* ===== Page switch: the long page <-> the RSVP form (RSVP has no tab) ===== */
+    let current = 'story';
     function go(id) {
       if (id === current) return;
       const from = document.getElementById(current), to = document.getElementById(id);
       from.classList.remove('active'); from.classList.add('leaving');
       setTimeout(() => from.classList.remove('leaving'), 700);
-      to.scrollTop = 0; to.classList.add('active'); current = id;
-      document.body.classList.toggle('on-rsvp', id === 'rsvp');
-      header.classList.remove('scrolled');
-      navBtns.forEach(b => b.dataset.go === id ? b.setAttribute('aria-current', 'page') : b.removeAttribute('aria-current'));
+      if (id === 'rsvp') to.scrollTop = 0;   // the story page keeps your scroll position when you come back
+      to.classList.add('active'); current = id;
     }
     document.addEventListener('click', e => {
-      const b = e.target.closest('[data-go]'); if (!b) return;
-      setMenu(false); go(b.dataset.go);
+      const b = e.target.closest('[data-go]'); if (b) go(b.dataset.go);
     });
-    document.querySelectorAll('.page').forEach(p => p.addEventListener('scroll', () => {
-      if (p.id === current) header.classList.toggle('scrolled', p.scrollTop > 30);
-    }, { passive: true }));
 
-    /* ===== Countdown (on Home) — set your wedding date here ===== */
+    /* ===== Countdown — set your wedding date here ===== */
     const target = new Date('2026-12-16T16:00:00');
     function tick() {
       const t = Math.max(0, target - new Date()), f = n => String(n).padStart(2, '0');
