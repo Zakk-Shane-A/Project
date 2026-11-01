@@ -198,12 +198,15 @@
       z-index: 5;
       border-radius: 1cqw;
       clip-path: polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%);
-      background: radial-gradient(90% 70% at 30% 20%, #4a2d20, #2e1a12);
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .04)
+      /* background: radial-gradient(90% 70% at 30% 20%, #4a2d20, #2e1a12);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .04) */
+      background-image: url('/envelope.png');
+      background-repeat: repeat;
+      background-size: cover;
     }
 
     .flap {
-      height: 23%;
+      height: 29%;
       z-index: 6;
       transform-origin: top;
       transition: transform .9s var(--ease), z-index 0s .45s
@@ -217,7 +220,10 @@
     }
 
     .flap .out {
-      background: linear-gradient(#3b2418, #2c1a11)
+      /* background: linear-gradient(#3b2418, #2c1a11) */
+  background-image: url('/envelopecopy.png');
+      background-repeat: repeat;
+      background-size: cover;
     }
 
     .flap .in {
@@ -384,7 +390,7 @@
     .rose {
       position: absolute;
       z-index: 7;
-      left: 70%;
+      left: 60%;
       top: 67%;
       width: 22%;
       opacity: 0;
@@ -400,8 +406,9 @@
 
     .rose svg,
     .rose img {
-      width: 100%;
-      display: block
+      width: 200%;
+      display: block;
+      transform: rotate(-40deg);
     }
 
     /* bottom text + buttons */
@@ -520,6 +527,16 @@
       transform: translateX(-60px)
     }
 
+    .reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity .9s var(--ease), transform .9s var(--ease);
+}
+.reveal.show {
+  opacity: 1;
+  transform: none;
+}
+
     .sec {
       max-width: 720px;
       margin: 0 auto;
@@ -537,6 +554,12 @@
 
     .script {
       font: 400 clamp(3.6rem, 13vw, 6rem)/1 var(--script);
+      color: var(--title);
+      margin-bottom: 1.6rem
+    }
+
+    .script-rsvp{
+      font: 400 clamp(3.6rem, 13vw, 6rem)/1 'Marcellus', serif;
       color: var(--title);
       margin-bottom: 1.6rem
     }
@@ -580,11 +603,12 @@
     }
 
     .lace {
-      width: min(100%, 430px);
-      margin: 0 auto 1.8rem;
-      padding: clamp(1.8rem, 8vw, 3rem);
-      border-radius: 12px;
-      background: var(--lace, radial-gradient(circle at 8px 8px, rgba(44, 31, 24, .5) 2.5px, transparent 3px) 0 0/16px 16px, #a99d8b)
+     width: min(100%, 430px);
+  margin: 0 auto 1.8rem;
+  border: clamp(30px, 10vw, 50px) solid transparent;     /* border thickness */
+  border-image: url('./border.png') 150 round;        /* your image + slice size */
+  background: #a99d8b;                                   /* paper color inside the frame */
+  background-clip: padding-box;
     }
 
     .lace .photo {
@@ -680,7 +704,18 @@
 
     /* RSVP button section at the bottom of the page */
     .rsvp-bg {
-      background: linear-gradient(rgba(44, 31, 24, .55), rgba(44, 31, 24, .55)), var(--rsvp-bg, radial-gradient(70% 60% at 25% 65%, #6a6842, #2c1f18)) center/cover
+      position: relative;
+      /* background: linear-gradient(rgba(44, 31, 24, .55), rgba(44, 31, 24, .55)), var(--rsvp-bg, radial-gradient(70% 60% at 25% 65%, #6a6842, #2c1f18)) center/cover */
+    }
+
+    .rsvp-bg video{
+   position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      opacity: 0.5;
     }
 
     .mini {
@@ -692,22 +727,24 @@
     .menv {
       width: min(40vw, 150px);
       aspect-ratio: 1/1.1;
-      background: linear-gradient(#8a5a35, #5e3a22);
-      clip-path: polygon(50% 0, 100% 22%, 100% 100%, 0 100%, 0 22%);
-      display: grid;
+      background: URL('./rsvpCard.png') center/contain;
+      /* clip-path: polygon(50% 0, 100% 22%, 100% 100%, 0 100%, 0 22%); */
+      /* display: grid; */
+      background-repeat: no-repeat;
       place-items: center;
       font: 1rem 'Marcellus', serif;
-      padding-top: 14%
+      z-index:2;
+      margin-top: -10%;
+      margin-right: -2%;
     }
 
     .mcard {
       width: min(33vw, 125px);
       aspect-ratio: .62;
-      background: #2b1214;
+      background: url('/cardrsvp.png') center/cover;
       margin: 18px 0 0 -6px;
       display: grid;
       place-items: center;
-      color: #a98756;
       font: 2.2rem var(--script)
     }
 
@@ -929,10 +966,14 @@
 
         <!-- 2 photos: replace the placeholder text with <img src="photo1.jpg" alt=""> -->
         <div class="pol pol1">
-          <div class="photo">Photo 1</div>
+          <div class="photo">
+            <image src="/imageHome1.png" alt="Photo 1">
+          </div>
         </div>
         <div class="pol pol2">
-          <div class="photo">Photo 2</div>
+          <div class="photo">
+            <image src="/imageHome2.png" alt="Photo 1">
+          </div>
         </div>
 
         <div class="env-front"></div>
@@ -945,19 +986,7 @@
 
         <!-- Rose: swap the SVG for <img src="rose.png" alt=""> (transparent PNG) if you have one -->
         <div class="rose">
-          <svg viewBox="0 0 100 100" aria-hidden="true">
-            <defs>
-              <radialGradient id="rg" cx="50%" cy="45%" r="55%">
-                <stop offset="0" stop-color="#f6d3cc" />
-                <stop offset=".6" stop-color="#dba19c" />
-                <stop offset="1" stop-color="#b8706e" />
-              </radialGradient>
-            </defs>
-            <path d="M60 60 Q40 85 8 96" stroke="#5a3a2a" stroke-width="2.5" fill="none" />
-            <circle cx="60" cy="38" r="30" fill="url(#rg)" />
-            <path d="M40 38a20 20 0 0 1 40 0M46 40a14 14 0 0 1 28 0M52 38a8 8 0 0 1 16 0" stroke="#b8706e"
-              stroke-width="2" fill="none" />
-          </svg>
+         <img src="/flower.png" alt="Rose">
         </div>
       </div>
 
@@ -979,12 +1008,12 @@
           <div class="frame">
             <div class="photo">Your photo here</div>
           </div>
-          <p>Write how you met here. A few warm sentences about the first hello and the moment you knew.</p>
+          <p class="reveal">Write how you met here. A few warm sentences about the first hello and the moment you knew.</p>
           <p>Add a second paragraph about the proposal and the years since.</p>
           <p>Finish with what you are looking forward to most on the day.</p>
         </div>
 
-                <div class="band">
+                <div class="band reveal">
           <h3>Counting down to forever</h3>
           <div class="cd" aria-label="Countdown to the wedding">
             <div><b id="d">0</b><small>Days</small></div>
@@ -997,11 +1026,13 @@
           </div>
         </div>
 
-        <div class="sec">
+        <div class="sec reveal">
           <h2 class="script">The Venue</h2>
           <!-- lace frame: set --lace:url(lace.png) on .lace if you have the Canva frame as a PNG -->
-          <div class="lace">
-            <div class="photo">Venue photo</div>
+          <div class="lace reveal">
+            <div class="photo">
+              <image src='/venueHouse.png' alt="Photo 1" width="100%">
+            </div>
           </div>
           <div class="h4">Chateau de Busay</div>
           <p>9V6J+WJF, Lower Busay Nivel Hills, Cebu<br>Transcentral Hwy, Cebu City, 6000 Cebu</p>
@@ -1009,7 +1040,7 @@
             rel="noopener">View on map</a>
         </div>
 
-        <div class="sec">
+        <div class="sec reveal">
           <h2 class="script">Dress Code</h2>
           <div class="info">
             <svg class="ico" viewBox="0 0 48 48" aria-hidden="true">
@@ -1044,14 +1075,17 @@
           </div>
         </div>
               <div class="rsvp-bg">
-          <div class="sec">
-            <h2 class="script">RSVP</h2>
+                <video autoplay muted loop playsinline id="bgvid" aria-hidden="true">
+      <source src="/bannervideo.mp4" type="video/mp4">
+    </video>
+          <div class="sec reveal">
+            <h2 class="script-rsvp">RSVP</h2>
             <p>As we begin our journey together, we'd love for you to join us in celebrating our big day. Your presence
               means the world to us, and we can't wait to create unforgettable memories together.</p>
             <!-- replace .mini with <img src="envelope.png" alt=""> if you have the Canva envelope image -->
             <div class="mini">
-              <div class="menv">RSVP</div>
-              <div class="mcard">C&amp;G</div>
+              <div class="menv"></div>
+              <div class="mcard"></div>
             </div>
             <button class="btn" data-go="rsvp">Click here</button>
           </div>
@@ -1173,6 +1207,14 @@
         sendBtn.disabled = false; sendBtn.textContent = 'Submit';
       }
     });
+
+
+    const io = new IntersectionObserver(entries => {
+        entries.forEach(en => {
+          if (en.isIntersecting) { en.target.classList.add('show'); io.unobserve(en.target); }
+        });
+      }, { threshold: 0.15 });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
   </script>
 </body>
 
