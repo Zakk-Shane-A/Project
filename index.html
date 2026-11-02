@@ -17,7 +17,7 @@
       color-scheme: dark;
       /* Script font: uses Blosta Script if you add the licensed file (see @font-face), otherwise Pinyon Script.
      Free look-alike to try instead: swap to 'Ballet' (add &family=Ballet to the Google Fonts link). */
-      --script: 'Mea Culpa', cursive;
+      --script: 'Blosta Script', cursive;
       --bg: #2c1f18;
       --ink: #f3ead8;
       --gold: #b79a5b;
@@ -86,6 +86,22 @@
     /* ===== INTRO: ENVELOPE SCENE =====
    Optional: put a blurred flower/venue photo behind it by adding
    --intro-bg:url(bg.jpg); to #intro below. */
+
+    #intro-new{
+      width: 100%;
+      height: 100vh;
+      background-image: url('./envelopeS.png');
+      background-size:cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    #intro-new img{
+      width: 100%;
+    }
+
+
+
     #intro {
       position: relative;
     width: 100%;
@@ -189,8 +205,32 @@
       height: 41%
     }
 
-    .env-back {
+
+.env-back::after,
+.flap .out::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: url('envelopeOpen.png') center / cover, #8a6a38;
+  opacity: 0;
+  transition: opacity .9s ease .35s;     /* .35s = starts as the flap lifts */
+}
+
+/* AFTER opening: fade to light brown */
+.opening .env-back::after,
+.opening .flap .out::after {
+  opacity: 1;
+}
+
+    .env-back .flap{
       background: linear-gradient(#a3834a, #6e4c2b 55%, #3a2216);
+      border-radius: 1cqw
+    }
+    .env-back {
+      background-image: url('/envelopecopy.png');
+      background-repeat: repeat;
+      background-size: cover;
       border-radius: 1cqw
     }
 
@@ -198,27 +238,48 @@
       z-index: 5;
       border-radius: 1cqw;
       clip-path: polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%);
-      /* background: radial-gradient(90% 70% at 30% 20%, #4a2d20, #2e1a12);
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .04) */
+      
       background-image: url('/envelope.png');
       background-repeat: repeat;
       background-size: cover;
     }
 
+    
+  .opening .env-front-cover {
+      opacity: 1;
+      transition: opacity .5s var(--ease)
+    }
+
+
+ .env-front-cover {
+  z-index: 5;
+  position: absolute;
+  top: 73%;
+  left: 22%;
+  width: 232px;
+  height: 152PX;
+  aspect-ratio: 1 / 1;
+  background-image: url('/envelopeCopy.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  clip-path: polygon(30% 0, 80% 0%, 100% 50%, 10% 50%);
+  opacity: 0;
+}
+
+
     .flap {
-      height: 29%;
+      height: 32%;
       z-index: 6;
       transform-origin: top;
       transition: transform .9s var(--ease), z-index 0s .45s
     }
 
     .flap .face {
-      position: absolute;
-      inset: 0;
-      clip-path: polygon(0 0, 100% 0, 50% 100%);
-      backface-visibility: hidden
-    }
-
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(-10px 0px, 100% 0px, 50% 100%);
+  backface-visibility: hidden;
+}
     .flap .out {
       /* background: linear-gradient(#3b2418, #2c1a11) */
   background-image: url('/envelopecopy.png');
@@ -237,7 +298,7 @@
     }
 
     .opening .title{
-      top: 1.6%;
+      top: 10.6%;
         transition: 0.5s ease-in;
     }
 
@@ -260,43 +321,22 @@
 
     .card {
       --dy: 46%;
-      --rot: 4deg;
-      left: 44%;
-      top: -2%;
+      --rot: 13deg;
+      left: 35%;
+      top: 10%;
       width: 51%;
       height: 64%;
       text-align: center;
       padding: 15cqw 4cqw 0;
-      color: #8a6a45;
-      border-radius: 13cqw 13cqw 2cqw 2cqw;
-      background: radial-gradient(120% 80% at 30% 8%, #f7f0de, #e5dac0);
-      box-shadow: 0 2cqw 5cqw rgba(0, 0, 0, .35)
+      background-image: url('./card-new.png');
+      background-repeat: no-repeat;
+      background-size: cover;
     }
 
     .opening .card {
       transition-delay: .9s
     }
 
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: 2.2cqw;
-      border: 1px solid rgba(167, 132, 80, .45);
-      border-radius: 11cqw 11cqw 1cqw 1cqw
-    }
-
-    .card small {
-      display: block;
-      font: 3.9cqw 'Marcellus', serif;
-      letter-spacing: .08em;
-      text-transform: uppercase
-    }
-
-    .card .nm {
-      display: block;
-      font: 12cqw/.95 var(--script);
-      margin: 2.4cqw 0 3cqw
-    }
 
     .pol {
       background: #fbfaf6;
@@ -311,19 +351,19 @@
 
     .pol1 {
       --dy: 165%;
-      --rot: -2deg;
+      --rot: 5deg;
       left: 16%;
-      top: 3%;
+      top: 13%;
       width: 33%
     }
 
     .pol2 {
       --dy: 88%;
-      --rot: -7deg;
-      left: 9%;
-      top: 25%;
-      width: 39%;
-      z-index: 3
+  --rot: -14deg;
+  left: 18%;
+  top: 35%;
+  width: 39%;
+  z-index: 3;
     }
 
     .opening .pol1 {
@@ -369,18 +409,18 @@
       position: absolute;
       z-index: 6;
       left: 52%;
-      top: 81%;
+      top: 84%;
       width: 17%;
       aspect-ratio: .8;
       translate: -50% -50%;
-      /* border-radius: 50%;
-      border: 1px solid #d9c18a; */
       display: grid;
       place-items: center;
-      color: #e1c98f;
-      font: 9cqw var(--script);
       opacity: 0;
       transition: opacity 1s 1.9s
+    }
+
+    .mono img{
+      width: 100%;
     }
 
     .opening .mono {
@@ -388,16 +428,16 @@
     }
 
     .rose {
-      position: absolute;
-      z-index: 7;
-      left: 60%;
-      top: 67%;
-      width: 22%;
-      opacity: 0;
-      transform: translateY(-8cqw) rotate(-25deg);
-      transition: transform 1.2s var(--out) 2.1s, opacity .6s 2.1s;
-      filter: drop-shadow(0 1cqw 1.5cqw rgba(0, 0, 0, .4))
-    }
+  position: absolute;
+  z-index: 7;
+  left: 48%;
+  top: 68%;
+  width: 22%;
+  opacity: 0;
+  transform: translateY(-8cqw) rotate(-25deg);
+  transition: transform 1.2s var(--out) 2.1s, opacity .6s 2.1s;
+  filter: drop-shadow(0 1cqw 1.5cqw rgba(0, 0, 0, .4));
+}
 
     .opening .rose {
       opacity: 1;
@@ -406,10 +446,10 @@
 
     .rose svg,
     .rose img {
-      width: 200%;
-      display: block;
-      transform: rotate(-40deg);
-    }
+  width: 280%;
+  display: block;
+  transform: rotate(-44deg);
+}
 
     /* bottom text + buttons */
     .foot,
@@ -599,7 +639,8 @@
 
     .frame .photo {
       aspect-ratio: 16/9;
-      width: 100%
+      width: 100%;
+      z-index: -1;
     }
 
     .lace {
@@ -721,7 +762,8 @@
     .mini {
       display: flex;
       justify-content: center;
-      margin: 1.8rem 0 1.4rem
+      margin: 1.8rem 0 1.4rem;
+      position: relative;
     }
 
     .menv {
@@ -747,6 +789,19 @@
       place-items: center;
       font: 2.2rem var(--script)
     }
+.mcard::after {
+  content: '';
+  position: absolute;
+  width: clamp(200px, 15vw, 200px);
+  aspect-ratio: 1;
+  background: url('/floral.png') center/contain no-repeat;
+  left: 40%;
+  bottom: -20%;
+  transform: translateX(-50%);
+  z-index: -1;
+  pointer-events: none;
+  z-index: 3;
+}
 
     /* RSVP — full-screen dark page, like the sample */
     #rsvp {
@@ -922,6 +977,22 @@
       font-size: 1rem
     }
 
+    @media (max-width: 600px) {
+     .opening .title {
+  top: 10.6%;
+}
+
+.title small {
+  display: block;
+  font: 4cqw/1.2 'Marcellus', serif;
+}
+
+.title .names {
+  display: block;
+  font: 12.5cqw/1.1 var(--script);
+}
+    }
+
     @media(prefers-reduced-motion:reduce) {
       * {
         transition-duration: .01s !important;
@@ -932,14 +1003,19 @@
 
     /* Blosta Script is a paid font. After buying a WEB license, upload the file as fonts/BlostaScript.woff2 */
     @font-face {
-      font-family: 'Blosta Script';
-      src: url('fonts/BlostaScript.woff2') format('woff2');
-      font-display: swap
-    }
+    font-family: 'Blosta Script';
+    src: url('./Blosta-Script.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
   </style>
 </head>
 
 <body>
+  <!-- <section id="intro-new" aria-label="Invitation cover">
+    
+    </section> -->
 
   <!-- ===== INTRO ===== -->
   <section id="intro" aria-label="Invitation cover">
@@ -950,7 +1026,7 @@
     <div class="scene">
       <div class="title">
         <small>The wedding of</small>
-        <span class="names">Chinny <i>&amp;</i> Gilby</span>
+        <img src="/chnygilyfont-intro.png" alt="Monogram" width="100%">
       </div>
 
       <div class="stage" id="stage">
@@ -958,10 +1034,10 @@
 
         <!-- Card (rises beside the photos) -->
         <div class="card">
-          <small>Save the date</small>
+          <!-- <small>Save the date</small>
           <span class="nm">Chinny &amp; Gilby</span>
           <small>Dec. 16, 2026</small>
-          <small style="margin-top:1.5cqw">Chateau de Busay</small>
+          <small style="margin-top:1.5cqw">Chateau de Busay</small> -->
         </div>
 
         <!-- 2 photos: replace the placeholder text with <img src="photo1.jpg" alt=""> -->
@@ -972,7 +1048,7 @@
         </div>
         <div class="pol pol2">
           <div class="photo">
-            <image src="/imagehome2.png" alt="Photo 1">
+            <image src="/imageHome2.png" alt="Photo 1">
           </div>
         </div>
 
@@ -981,7 +1057,8 @@
           <div class="face out"></div>
           <div class="face in"></div>
         </div>
-        <div class="mono">C&amp;G</div>
+        <div class ="env-front-cover"> </div>
+        <div class="mono"><image src="/logoIntro.png" alt="Monogram"></image></div>
         <div class="seal"></div>
 
         <!-- Rose: swap the SVG for <img src="rose.png" alt=""> (transparent PNG) if you have one -->
@@ -1004,7 +1081,7 @@
       <!-- ONE PAGE: story, countdown, venue, dress code, RSVP button (RSVP form is a separate page, no tab) -->
       <section class="page active" id="story">
         <div class="sec first">
-          <h2 class="script">Our Story</h2>
+          <img src="/Our-testimony.png" alt="Monogram" width="100%">
           <div class="frame">
             <div class="photo">Your photo here</div>
           </div>
@@ -1027,7 +1104,7 @@
         </div>
 
         <div class="sec reveal">
-          <h2 class="script">The Venue</h2>
+          <img src="/theVenue.png" alt="Venue" width="100%">
           <!-- lace frame: set --lace:url(lace.png) on .lace if you have the Canva frame as a PNG -->
           <div class="lace reveal">
             <div class="photo">
@@ -1041,7 +1118,7 @@
         </div>
 
         <div class="sec reveal">
-          <h2 class="script">Dress Code</h2>
+          <img src="/dressCode.png" alt="Dress code" width="100%">
           <div class="info">
             <svg class="ico" viewBox="0 0 48 48" aria-hidden="true">
               <path d="M24 12a4 4 0 1 1 4 4c-3 1-4 2-4 5L5 36h38L24 21" />
@@ -1076,10 +1153,10 @@
         </div>
               <div class="rsvp-bg">
                 <video autoplay muted loop playsinline id="bgvid" aria-hidden="true">
-      <source src="/bannervideo.mp4" type="video/mp4">
+      <source src="/rsvpbanner.mp4" type="video/mp4">
     </video>
           <div class="sec reveal">
-            <h2 class="script-rsvp">RSVP</h2>
+            <img src="/rsvpText.png" alt="RSVP" width="100%">
             <p>As we begin our journey together, we'd love for you to join us in celebrating our big day. Your presence
               means the world to us, and we can't wait to create unforgettable memories together.</p>
             <!-- replace .mini with <img src="envelope.png" alt=""> if you have the Canva envelope image -->
