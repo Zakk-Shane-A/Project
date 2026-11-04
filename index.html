@@ -17,7 +17,7 @@
       color-scheme: dark;
       /* Script font: uses Blosta Script if you add the licensed file (see @font-face), otherwise Pinyon Script.
      Free look-alike to try instead: swap to 'Ballet' (add &family=Ballet to the Google Fonts link). */
-      --script: 'Blosta Script', cursive;
+     
       --bg: #2c1f18;
       --ink: #f3ead8;
       --gold: #b79a5b;
@@ -26,6 +26,7 @@
       --blush: #4b3a2c;
       --serif: 'Cormorant Garamond', Georgia, serif;
       --sans: 'Jost', system-ui, sans-serif;
+       --script: 'Blosta Script', cursive;
       --ease: cubic-bezier(.65, 0, .35, 1);
     }
 
@@ -251,20 +252,35 @@
     }
 
 
- .env-front-cover {
+ /* .env-front-cover {
   z-index: 5;
   position: absolute;
   top: 73%;
-  left: 49%;
+  left: 22%;
   width: 232px;
   height: 152PX;
   aspect-ratio: 1 / 1;
-  background-image: url('/envelopecopy.png');
+  background-image: url('/envelopeCopy.png');
   background-repeat: no-repeat;
   background-size: contain;
   clip-path: polygon(30% 0, 80% 0%, 100% 50%, 10% 50%);
   opacity: 0;
-  transform: translateX(-50%);
+} */
+
+
+ .env-front-cover {
+  z-index: 5;
+  position: absolute;
+  top: 73%;                    /* % of the stage, so it scales with the envelope */
+  left: 22%;
+  width: 55%;                  /* was 232px: fixed pixels broke on other screen sizes. Tune this one number */
+  height: auto;
+  aspect-ratio: 232 / 152;     /* keeps the same shape at every size */
+  background-image: url('/envelopeCopy.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  clip-path: polygon(30% 0, 80% 0%, 100% 50%, 10% 50%);
+  opacity: 0;
 }
 
 
@@ -528,6 +544,60 @@
       }
     }
 
+    /* ===== ZOOM INTRO: starts zoomed-in on the closed envelope, zooms out when opened ===== */
+    /* the zoom values (--zs, --zx, --zy, --zox, --zoy, --seal0) are set by JS so it fills ANY screen size */
+    #intro:not(.ready) .scene { opacity: 0 }
+    .stage {
+      transform-origin: var(--zox, 50%) var(--zoy, 50%);
+      transform: translate(var(--zx, 0px), var(--zy, 0px)) scale(var(--zs, 1));
+      transition: transform 2.6s cubic-bezier(.45, 0, .2, 1)
+    }
+    .opening .stage { transform: none }
+
+    /* seal: starts at the size that looks right while zoomed in */
+    .seal { scale: var(--seal0, .5) }
+
+    /* title: hidden while closed, fades in after the zoom-out starts (position stays yours: 10.6%) */
+    .title { top: 10.6%; opacity: 0; animation: none; transition: opacity 1s 1.4s }
+    .opening .title { opacity: 1; transition: opacity 1s 1.4s }
+
+    /* closed-envelope text (sized by the screen, not by the scene) */
+    .cover {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      text-align: center;
+      color: #fbf4e6;
+      transition: opacity .7s
+    }
+    .opening .cover { opacity: 0 }
+    .cv-names {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 13%
+    }
+    .cv-names img { width: min(78vw, 880px); max-height: 30vh; object-fit: contain; filter: drop-shadow(0 2px 18px rgba(0, 0, 0, .45)) }
+    .cv-bottom { position: absolute; left: 0; right: 0; bottom: 8%; }
+    .cv-bottom p {
+      font: clamp(1.1rem, 2.6vw, 2rem) 'Marcellus', serif;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 1.6rem
+    }
+    .cv-bottom .hint { position: static; pointer-events: auto }
+    .cv-bottom .hint .cbtn {
+      margin: 0;
+      padding: .85rem 2.4rem;
+      background: #7a5a30;
+      border: 0;
+      border-radius: 0;
+      font: clamp(.8rem, 1.4vw, 1.1rem) 'Marcellus', serif;
+      animation: none
+    }
+    .cv-bottom .hint .cbtn:hover { background: #9a7840; color: #f6efe0 }
+
     /* ===== SITE SHELL ===== */
     #site {
       height: 100%;
@@ -576,6 +646,33 @@
 .reveal.show {
   opacity: 1;
   transform: none;
+}
+
+.para-contatin {
+    width: fit-content;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.para-contatin p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.para-contatin p::before {
+    content: '';
+    display: inline-block;
+    flex-shrink: 0;
+
+    width: 20px;
+    height: 20px;
+
+    background-image: url('./x-logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
     .sec {
@@ -662,7 +759,8 @@
       font: 400 clamp(1.15rem, 3.4vw, 1.4rem) 'Marcellus', serif;
       letter-spacing: .05em;
       text-transform: uppercase;
-      margin-bottom: .8rem
+      margin-bottom: .8rem; 
+      color: #d8bf94;
     }
 
     .sec a {
@@ -686,19 +784,37 @@
       display: block
     }
 
-    .pal {
-      display: flex;
-      justify-content: center;
-      gap: .8rem;
-      margin-top: .4rem
-    }
+.pal {
+  display: grid;
+  grid-template-columns: repeat(2, clamp(76px, 20vw, 86px));
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  gap: 20px 5rem;
+  margin-top: .4rem;
+}
 
-    .pal i {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%
-    }
+.pal i {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #f5eee5;
+    font: normal 20px var(--serif);
+    text-align: center;
+    line-height: 1.1;
+    font-style: normal;
+}
+
+/* Center the fifth circle */
+.pal i:last-child {
+    grid-column: span 2;
+    justify-self: center;
+}
     /* countdown band (Our Story page) */
     .band {
       background: rgba(255, 255, 255, .13);
@@ -745,8 +861,25 @@
     }
 
     /* RSVP button section at the bottom of the page */
-    .rsvp-bg {
+
+   .rsvp-btm {
+      max-width: 1920px;
       position: relative;
+     text-align: center;
+     left:50%;
+      transform: translateX(-50%);
+      background-image: url('./bot-rsvpwallpaper.png');
+      background-size:cover;
+      background-repeat: no-repeat;
+   }
+
+
+    .rsvp-bg {
+      max-width: 1920px;
+      position: relative;
+     text-align: center;
+     left:50%;
+      transform: translateX(-50%);
       /* background: linear-gradient(rgba(44, 31, 24, .55), rgba(44, 31, 24, .55)), var(--rsvp-bg, radial-gradient(70% 60% at 25% 65%, #6a6842, #2c1f18)) center/cover */
     }
 
@@ -1024,6 +1157,14 @@
       <source src="/bannervideo.mp4" type="video/mp4">
     </video>
     
+    <!-- closed-envelope text: visible only before opening -->
+    <div class="cover">
+      <span class="cv-names"><img src="/chnygilyfont-intro.png" alt="Chinny &amp; Gilby"></span>
+      <div class="cv-bottom">
+        <p>A love redeemed by grace</p>
+        <div class="hint"><button class="cbtn" id="openBtn">Tap to open</button></div>
+      </div>
+    </div>
     <div class="scene">
       <div class="title">
         <small>The wedding of</small>
@@ -1068,7 +1209,6 @@
         </div>
       </div>
 
-      <div class="hint"><button class="cbtn" id="openBtn">Click to open</button></div>
       <div class="foot">
         <p>Chateau de Busay<br>12.16.2026</p>
         <button class="cbtn" id="viewBtn">View details</button>
@@ -1086,9 +1226,37 @@
           <div class="frame">
             <div class="photo">Your photo here</div>
           </div>
-          <p class="reveal">Write how you met here. A few warm sentences about the first hello and the moment you knew.</p>
-          <p>Add a second paragraph about the proposal and the years since.</p>
-          <p>Finish with what you are looking forward to most on the day.</p>
+          <h1 style="font: 100 clamp(30px, 15vw, 35px)/1.2 var(--serif); margin-bottom: 2rem;">HIS GRACE LED US HERE</h1>
+          &nbsp;
+          <p class="reveal">How God Redeemed and Restored Our Love Story</p>
+         
+          &nbsp;
+          <p class="reveal">For seven years, we shared a life together under one roof, never
+imagining marriage as part of our future. We were comfortable with
+what we had, blessed with our beautiful daughter, Chaya, and
+sustained by God's grace even when we fell short.</p>
+            &nbsp;
+          <p class="reveal">When we reached our seventh year, we thought our relationship had
+come to an end. We could no longer see a future together. But God, in
+His faithfulness, led us to a church where we witnessed beautiful
+examples of godly marriages. There, He encountered us, changed our
+hearts, and restored what we thought had no future.</p>
+&nbsp;
+          <p class="reveal">As we surrendered our relationship to Him, He taught us to love
+differently—to choose obedience, practice patience, and place Him at
+the center of our love. What once seemed impossible became a desire
+God planted in our hearts. In His perfect timing, God turned our story
+around and led us toward the covenant of marriage.</p>
+&nbsp;
+          <p class="reveal">
+Today, we celebrate not just our love for each other, but the God who
+pursued us, restored us, and remained faithful through it all. This is our
+love story, but above all, it is a testimony of God's grace, faithfulness,
+and redeeming love.</p>
+
+            <p class="reveal"><b>Even when we are faithless, He remains faithful.<span style="display: block;">— 2 Timothy 2:13 (TPT)</span></b></p>
+         
+          
         </div>
 
                 <div class="band reveal">
@@ -1106,6 +1274,7 @@
 
         <div class="sec reveal">
           <img src="/theVenue.png" alt="Venue" width="100%">
+          <div class="h4">THE WEDDING CEREMONY & RECEPTION</div>
           <!-- lace frame: set --lace:url(lace.png) on .lace if you have the Canva frame as a PNG -->
           <div class="lace reveal">
             <div class="photo">
@@ -1115,51 +1284,120 @@
           <div class="h4">Chateau de Busay</div>
           <p>9V6J+WJF, Lower Busay Nivel Hills, Cebu<br>Transcentral Hwy, Cebu City, 6000 Cebu</p>
           <a href="https://www.google.com/maps/search/?api=1&amp;query=Chateau+de+Busay+Cebu" target="_blank"
-            rel="noopener">View on map</a>
+            rel="noopener" style="display: block; margin-bottom: 20px;">View on map</a>
+
+                <div class="h4">Ceremony</div>
+                   <h1 style="font: 100 clamp(10px, 15vw, 15px)/1.2 var(--sans); margin-bottom: 2rem;">3:30 PM</h1>
+                   <div class="h4">Reception</div>
+                   <h1 style="font: 100 clamp(10px, 15vw, 15px)/1.2 var(--sans); margin-bottom: 5rem;">6:00 PM</h1>
+             <div class="info"">
+             <img src="/Icon_Attendance.png" alt="Attendance" width="130px;" style="margin-bottom: 20px;">
+            <div class="h4">Attendance</div>
+            <p>We hope you understand that we are keeping our wedding an intimate
+celebration. Due to space, we are only able to accommodate those
+guests formally invited.</p>
+          </div>
         </div>
+       
 
         <div class="sec reveal">
           <img src="/dressCode.png" alt="Dress code" width="100%">
-          <div class="info">
-            <svg class="ico" viewBox="0 0 48 48" aria-hidden="true">
-              <path d="M24 12a4 4 0 1 1 4 4c-3 1-4 2-4 5L5 36h38L24 21" />
-            </svg>
+          <div class="info" style ="margin-top: 3rem">
+            <img src ="Icon_Attire.png" alt="Attire" width="80px;" style="margin-bottom: 20px;">
             <div class="h4">Attire</div>
-            <p>We kindly invite our guests to join us in celebrating in earth tones attire. The following shades may be
-              styled in earth tones, subtle, or mixed textures (champagne, warm taupe, terracotta, olive green &amp;
-              walnut brown). Kindly avoid colors outside of this palette.</p>
-            <div class="pal" aria-label="Color palette">
-              <i style="background:#4a2a18"></i><i style="background:#7a6a45"></i><i style="background:#8b3a22"></i><i
-                style="background:#b79c86"></i><i style="background:#bfa683"></i>
+            <p>A Garden Celebration in Earth Tones as we celebrate this special day
+surrounded by nature, we would love for our guests to wear attire that
+complements the beauty of our garden setting.</p>
+              <div ="grid-contain">
+                <section ="padding" style="padding: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 2fr)); gap: 20px; align-items: center;">
+                  <div style="text-align: center;">
+                    <img src="/Gentlemen.png" alt="Men" width="150px;" style="margin-bottom: 10px;"></img>
+                    <div class="h4">GENTLEMAN</div>
+                    <p>Men: Earth-toned suits or dress shirts with slacks. Consider shades of brown, beige, olive, or muted greens.</p>
+                  </div>
+                 
+                  <div style="text-align: center;">
+                    <img src="/Little-gentlemen.png" alt="Women" width="150px;" style="margin-bottom: 10px;"></img>
+                     <div class ="h4">LITTLE GENTLEMAN</div>
+                    <p>Short-sleeved Barong in neutral tones and black slacks.</p>
+                  </div>
+                     <div style="text-align: center;">
+                    <img src="/Ladies.png" alt="Men" width="150px;" style="margin-bottom: 10px;"></img>
+                    <div class="h4">LADIES</div>
+                    <p>Long Gown.</p>
+                  </div>
+                 
+                  <div style="text-align: center;">
+                    <img src="/Little-ladies.png" alt="Women" width="150px;" style="margin-bottom: 10px;"></img>
+                     <div class ="h4">LITTLE LADIES</div>
+                    <p>Dress (Any Style)</p>
+                  </div>
+                </section>
+              </div>
             </div>
           </div>
-          <div class="info">
-            <svg class="ico" viewBox="0 0 48 48" aria-hidden="true">
-              <path d="M8 20h32v8H8zM10 28h28v12H10zM24 20v20M24 20c-6-9-12-3-7 0M24 20c6-9 12-3 7 0" />
-            </svg>
-            <div class="h4">Gifts</div>
-            <p>Your presence at our wedding is the greatest gift we could wish for. Should you wish to honor us with a
-              gift, a contribution toward our honeymoon would be deeply appreciated.</p>
-          </div>
-          <div class="info" style="margin-bottom:0">
-            <svg class="ico" viewBox="0 0 48 48" aria-hidden="true">
-              <circle cx="17" cy="16" r="6" />
-              <circle cx="32" cy="18" r="5" />
-              <path d="M5 40c0-9 6-14 12-14s12 5 12 14M28 30c7-2 15 2 15 10" />
-            </svg>
-            <div class="h4">Attendance</div>
-            <p>We hope you understand that we are keeping our wedding an intimate celebration. Due to space, we are only
-              able to accommodate those guests formally invited.</p>
-          </div>
+
+
+              <div class="rsvp-bg ">
+    <video autoplay muted loop playsinline id="bgvid" aria-hidden="true">
+        <source src="/rsvpbanner.mp4" type="video/mp4">
+    </video>
+
+    <div class="sec reveal">
+      <div class="h4">Color Guide</div>
+      <p>We would love to see everyone in beautiful earthtone shades!</p>
+        <div class="pal" aria-label="Color palette">
+
+            <i style="background:#4a2a18;">Walnut<br>Brown</i>
+            <i style="background:#7a6a45;">Olive<br>Green</i>
+            <i style="background:#8b3a22;">Terracotta</i>
+            <i style="background:#b79c86;">Warm<br>Taupe</i>
+            <i style="background:#bfa683;">Warm<br>Ivory</i>
+
         </div>
-              <div class="rsvp-bg">
+    </div>
+</div>
+       <div class="sec reveal">
+          <div class="h4">DRESS CODE REMINDER</div>
+          &nbsp;
+          <p style="margin-bottom: 2rem">To maintain the elegance of our garden celebration, we kindly
+          request that guests refrain from wearing the following:</p>
+          &nbsp;
+          <div class ="para-contatin" >
+          <p>Jeans / Shorts</p>
+          <p>Rubber shoes / Slippers</p>
+          <p>T-Shirts / White Outfits</p>
+          <p>Cocktail dresses</p>
+          </div>
+          &nbsp;
+          <p>Thank you for honoring our dress code and being part of our special day.</p>
+       </div>
+     <div class="sec reveal">
+          <img src="/Icon_Gifts.png" alt="RSVP" width="130px;" style="margin-bottom: 3rem;">
+          <h1 style="font: 100 clamp(30px, 15vw, 35px)/1.2 var(--serif); margin-bottom: 2rem;">A NOTE ON GIFTS</h1>
+          <p>Having you celebrate this special day with us is already
+          a gift we will treasure.</p>
+            &nbsp;
+          <p>We are grateful to have you witness God's faithfulness
+          in bringing us together and leading us into this new
+          chapter.</p>
+            &nbsp;
+            <p>If you wish to bless us with a gift, a monetary
+            contribution toward building our new home and
+            beginning our married life together would be deeply
+            appreciated.</p>
+            &nbsp;
+            <p>Thank you for your love and generosity!</p>
+        </div>
+      <div class="rsvp-bg">
                 <video autoplay muted loop playsinline id="bgvid" aria-hidden="true">
       <source src="/rsvpbanner.mp4" type="video/mp4">
     </video>
           <div class="sec reveal">
             <img src="/rsvpText.png" alt="RSVP" width="100%">
-            <p>As we begin our journey together, we'd love for you to join us in celebrating our big day. Your presence
-              means the world to us, and we can't wait to create unforgettable memories together.</p>
+            <p>As we begin our journey together, we'd love for you to join us in celebrating our big day. Your presence means the world
+            to us, and we can't wait to create unforgettable memories together. Let's celebrate love, laughter, and happily ever
+            after!</p>
             <!-- replace .mini with <img src="envelope.png" alt=""> if you have the Canva envelope image -->
             <div class="mini">
               <div class="menv"></div>
@@ -1168,7 +1406,13 @@
             <button class="btn" data-go="rsvp">Click here</button>
           </div>
         </div>
-      
+
+        <div class ="rsvp-btm">
+        <div class="sec reveal">
+        <div class="h3-bot">Our Entourage</div>
+        <h2>Wedding Officiant</h2>
+        </div>
+        </div>
 </section>
 
       <!-- RSVP -->
@@ -1234,6 +1478,24 @@
   <script>
     /* ===== Envelope open → View details → site ===== */
     const intro = document.getElementById('intro'), site = document.getElementById('site');
+    /* zoom-in on the closed envelope: fills any screen, recalculated on resize */
+    function setZoom() {
+      const sc = intro.querySelector('.scene'), st = document.getElementById('stage');
+      const env = st.querySelector('.env-back'), seal = st.querySelector('.seal');
+      const W = intro.clientWidth, H = intro.clientHeight, ir = intro.getBoundingClientRect(), r = sc.getBoundingClientRect();
+      const ox = env.offsetLeft + env.offsetWidth / 2, oy = env.offsetTop + env.offsetHeight / 2;   // envelope centre, inside the stage
+      const cx = r.left - ir.left + st.offsetLeft + ox, cy = r.top - ir.top + st.offsetTop + oy;     // same point on screen
+      const zs = Math.max(W / env.offsetWidth, H / env.offsetHeight) * 1.04;                         // "cover" scale
+      const d = Math.min(Math.max(.11 * W, .13 * H), .22 * H);                                       // seal size while zoomed in
+      st.style.transition = 'none';
+      const set = (k, v) => intro.style.setProperty(k, v);
+      set('--zox', ox + 'px'); set('--zoy', oy + 'px');
+      set('--zx', (W / 2 - cx) + 'px'); set('--zy', (H / 2 - cy) + 'px');
+      set('--zs', zs); set('--seal0', d / (seal.offsetWidth * zs));
+      intro.classList.add('ready');
+      requestAnimationFrame(() => requestAnimationFrame(() => st.style.transition = ''));
+    }
+    setZoom(); addEventListener('resize', setZoom); addEventListener('load', setZoom);
     const openEnv = () => intro.classList.add('opening');
     document.getElementById('openBtn').addEventListener('click', openEnv);
     document.getElementById('stage').addEventListener('click', openEnv);
