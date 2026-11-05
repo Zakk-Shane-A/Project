@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#2b1b14">
+<title>Kindly RSVP · Chinny &amp; Gilby</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #2b1b14;
+    --ink: #fbf6ee;
+    --tan: #a5835f;          /* arrow + deadline date */
+    --card: rgba(255, 255, 255, .13);
+    --head: 'Marcellus', 'Optima', Georgia, serif;
+    --body: 'Open Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0 }
+  html { color-scheme: dark }
+  body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: radial-gradient(120% 80% at 50% 0%, #38241b 0%, var(--bg) 60%) fixed;
+    color: var(--ink);
+    font: 400 1rem/1.5 var(--body);
+    -webkit-font-smoothing: antialiased;
+  }
+  button, input { font: inherit; color: inherit }
+  button { cursor: pointer; border: 0; background: none }
+  :focus-visible { outline: 2px solid #d9b98f; outline-offset: 3px }
+
+  .page { width: min(100%, 520px); margin: 0 auto; padding: clamp(1.25rem, 5vw, 2.5rem) clamp(1.5rem, 6vw, 2rem) 3rem }
+
+  /* Go back */
+  .back { display: inline-flex; align-items: center; gap: .9rem; font-size: .95rem; padding: .4rem 0; margin-bottom: clamp(1.6rem, 6vw, 2.6rem) }
+  .back svg { width: 2.8rem; height: auto; color: var(--tan); transition: transform .3s }
+  .back:hover svg { transform: translateX(-5px) }
+
+  /* Heading */
+  h1 { font: 400 clamp(2.5rem, 11vw, 3.4rem)/1.05 var(--head); letter-spacing: .01em; text-transform: uppercase }
+  .lead { font-size: clamp(1.05rem, 3.4vw, 1.2rem); line-height: 1.45; margin: .9rem 0 1.9rem; max-width: 30ch }
+
+  /* Fields */
+  .field { margin-bottom: 1.7rem; border: 0 }
+  .label { display: block; font-size: clamp(.95rem, 3vw, 1.05rem); text-transform: uppercase; letter-spacing: .02em; margin-bottom: .65rem }
+  .text {
+    width: 100%; height: 3rem; padding: 0 1rem;
+    background: transparent; border: 1px solid rgba(255, 255, 255, .85); border-radius: 10px;
+    transition: border-color .25s, box-shadow .25s, background .25s;
+  }
+  .text:hover { background: rgba(255, 255, 255, .04) }
+  .text:focus { outline: none; border-color: #d9b98f; box-shadow: 0 0 0 3px rgba(217, 185, 143, .25) }
+  .text.bad { border-color: #e8a090 }
+
+  /* Big option cards */
+  .opt { display: block; position: relative; margin-bottom: .85rem }
+  .opt input { position: absolute; opacity: 0; inset: 0; cursor: pointer }
+  .opt span {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    min-height: 5.1rem; padding: 0 1.25rem; border-radius: 12px; cursor: pointer;
+    background: var(--card); border: 1px solid transparent;
+    text-transform: uppercase; letter-spacing: .02em; font-size: clamp(.95rem, 3vw, 1.05rem);
+    transition: background .25s, border-color .25s, transform .25s;
+  }
+  .opt span::after {                       /* check circle */
+    content: ""; flex: none; width: 1.3rem; height: 1.3rem; border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, .5); transition: background .25s, border-color .25s, box-shadow .25s;
+  }
+  .opt:hover span { background: rgba(255, 255, 255, .19) }
+  .opt input:checked + span { background: rgba(165, 131, 95, .3); border-color: var(--tan) }
+  .opt input:checked + span::after { background: var(--tan); border-color: var(--tan); box-shadow: inset 0 0 0 3px #3a261c }
+  .opt input:focus-visible + span { outline: 2px solid #d9b98f; outline-offset: 3px }
+  .opt:active span { transform: scale(.99) }
+
+  .note { font-size: clamp(.95rem, 3vw, 1.05rem); line-height: 1.45; margin: 1.9rem 0 1.7rem }
+  .deadline-label { font-size: clamp(.95rem, 3vw, 1.05rem); text-transform: uppercase; letter-spacing: .01em }
+  .deadline { font: 700 clamp(1.5rem, 6.4vw, 1.9rem)/1.2 var(--body); color: var(--tan); text-transform: uppercase; margin: .35rem 0 1.6rem }
+
+  /* Submit */
+  .send {
+    width: 100%; height: 3.3rem; border-radius: 99px; background: #fff; color: #1d120d;
+    text-transform: uppercase; letter-spacing: .08em; font-size: 1rem;
+    transition: background .25s, transform .25s, opacity .25s;
+  }
+  .send:hover:not(:disabled) { background: #f3e6d4; transform: translateY(-1px) }
+  .send:disabled { opacity: .65; cursor: wait }
+  .msg { min-height: 1.4em; margin-top: .9rem; font-size: .9rem; text-align: center; color: #f0b8a8 }
+  .fine { text-align: center; font-size: .72rem; color: rgba(251, 246, 238, .55); margin-top: .5rem }
+  .hp { position: absolute; left: -9999px; opacity: 0 }
+
+  /* Success */
+  .done { text-align: center; padding: 3rem 0 1rem; animation: rise .8s cubic-bezier(.22, 1, .36, 1) both }
+  .done .tick { width: 4.2rem; height: 4.2rem; margin: 0 auto 1.4rem; color: var(--tan) }
+  .done h2 { font: 400 clamp(1.9rem, 8vw, 2.5rem)/1.1 var(--head); text-transform: uppercase; margin-bottom: .8rem }
+  .done p { max-width: 32ch; margin: 0 auto .6rem }
+  .done a { color: #d9b98f }
+  .bar { height: 3px; width: min(70%, 240px); margin: 1.6rem auto 0; background: rgba(255, 255, 255, .15); border-radius: 3px; overflow: hidden }
+  .bar i { display: block; height: 100%; width: 0; background: var(--tan); animation: fill var(--delay, 3s) linear forwards }
+  @keyframes fill { to { width: 100% } }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px) } to { opacity: 1; transform: none } }
+  [hidden] { display: none !important }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation-duration: .01s !important } }
+</style>
+</head>
+<body>
+<main class="page">
+  <button class="back" id="backBtn" type="button">
+    <svg viewBox="0 0 48 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M47 6H3M8 1 3 6l5 5"/></svg>
+    Go Back
+  </button>
+
+  <h1>Kindly RSVP</h1>
+  <p class="lead">We would love to celebrate this special day with you!</p>
+
+  <form id="form" novalidate>
+    <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+    <div class="field">
+      <label class="label" for="name">Guest name</label>
+      <input class="text" id="name" name="name" required autocomplete="name">
+    </div>
+
+    <fieldset class="field">
+      <legend class="label">Will you be joining us?</legend>
+      <label class="opt"><input type="radio" name="attending" value="Joyfully accepts" required><span>Joyfully accepts</span></label>
+      <label class="opt"><input type="radio" name="attending" value="Regretfully declines"><span>Regretfully declines</span></label>
+    </fieldset>
+
+    <p class="note">Kindly note that invitations are reserved exclusively for the named guest. Thank you for understanding!</p>
+
+    <p class="deadline-label">Kindly confirm your attendance on or before:</p>
+    <p class="deadline">November 20, 2026</p>
+
+    <button class="send" id="send" type="submit">Submit</button>
+    <p class="msg" id="msg" role="status" aria-live="polite"></p>
+    <p class="fine">Your reply is sent privately to the hosts.</p>
+  </form>
+
+  <section class="done" id="done" hidden>
+    <svg class="tick" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="24" cy="24" r="21"/><path d="M14 25l7 7 13-15" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <h2>Thank you</h2>
+    <p id="doneText">Your reply has been sent. We can't wait to celebrate with you.</p>
+    <p>Taking you back… <a id="goNow" href="#">Continue now</a></p>
+    <div class="bar" aria-hidden="true"><i id="barFill"></i></div>
+  </section>
+</main>
+
+<script>
+/* ===== SETTINGS ===== */
+const SCRIPT_URL     = 'https://script.google.com/macros/s/AKfycbzSjhxgFmNv9-VdV8gL--IO1hWWTv0MpCF2QQhzlJG3Obgl8pmMp7wKFv7QHEgXf2Tp/exec';  // same Google Apps Script URL as your main site (emails you + saves to the Sheet)
+const REDIRECT_URL   = 'https://www.google.com';       // where guests go after a successful submit. Use 'back' to return to the page they came from
+const REDIRECT_DELAY = 3000;                           // ms to show the thank-you message before redirecting
+
+const $ = id => document.getElementById(id);
+const form = $('form'), msg = $('msg'), send = $('send');
+
+/* where to send the guest after submitting */
+function target() {
+  if (REDIRECT_URL === 'back') return document.referrer || 'https://www.google.com';
+  return REDIRECT_URL;
+}
+
+/* Go Back: return to the page they came from (e.g. Google), or the redirect page if there is no history */
+$('backBtn').addEventListener('click', () => {
+  if (history.length > 1) history.back(); else location.href = target();
+});
+
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  msg.textContent = '';
+  $('name').classList.remove('bad');
+  const name = form.name.value.trim();
+  if (!name) { $('name').classList.add('bad'); msg.textContent = 'Please enter the guest name.'; $('name').focus(); return; }
+  if (!form.attending.value) { msg.textContent = 'Please choose if you will be joining us.'; return; }
+  if (SCRIPT_URL.startsWith('PASTE')) { msg.textContent = 'Setup needed: paste your Apps Script URL into SCRIPT_URL.'; return; }
+
+  send.disabled = true; send.textContent = 'Sending…';
+  try {
+    // no-cors: the browser can't read Google's reply, so success = the request left without a network error
+    await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: new URLSearchParams(new FormData(form)) });
+  } catch (err) {
+    msg.textContent = 'Could not send. Please check your connection and try again.';
+    send.disabled = false; send.textContent = 'Submit';
+    return;
+  }
+
+  /* success: thank-you, then redirect (replace = the Back button won't return to the filled form) */
+  const go = () => location.replace(target());
+  if (form.attending.value === 'Regretfully declines') $('doneText').textContent = "Your reply has been sent. You will be missed, and thank you for letting us know.";
+  form.hidden = true; $('done').hidden = false;
+  $('done').closest('main').querySelectorAll('h1,.lead').forEach(el => el.hidden = true);
+  $('done').style.setProperty('--delay', REDIRECT_DELAY + 'ms');
+  $('barFill').style.setProperty('--delay', REDIRECT_DELAY + 'ms');
+  $('goNow').addEventListener('click', ev => { ev.preventDefault(); go(); });
+  $('goNow').href = target();
+  setTimeout(go, REDIRECT_DELAY);
+});
+</script>
+</body>
+</html>
