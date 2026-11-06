@@ -151,7 +151,7 @@
 <script>
 /* ===== SETTINGS ===== */
 const SCRIPT_URL     = 'https://script.google.com/macros/s/AKfycbzSjhxgFmNv9-VdV8gL--IO1hWWTv0MpCF2QQhzlJG3Obgl8pmMp7wKFv7QHEgXf2Tp/exec';  // same Google Apps Script URL as your main site (emails you + saves to the Sheet)
-const REDIRECT_URL   = 'https://www.google.com';       // where guests go after a successful submit. Use 'back' to return to the page they came from
+const REDIRECT_URL   = 'https://canvademoquentingilon.my.canva.site/chinnyandgilbywedding';       // where guests go after a successful submit. Use 'back' to return to the page they came from
 const REDIRECT_DELAY = 3000;                           // ms to show the thank-you message before redirecting
 
 const $ = id => document.getElementById(id);
@@ -159,7 +159,7 @@ const form = $('form'), msg = $('msg'), send = $('send');
 
 /* where to send the guest after submitting */
 function target() {
-  if (REDIRECT_URL === 'back') return document.referrer || 'https://www.google.com';
+  if (REDIRECT_URL === 'back') return document.referrer || 'https://canvademoquentingilon.my.canva.site/chinnyandgilbywedding';
   return REDIRECT_URL;
 }
 
